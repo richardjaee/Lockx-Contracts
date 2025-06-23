@@ -11,6 +11,7 @@ on:
       - 'hardhat.config.ts'
       - 'docs/**'
       - 'mkdocs.yml'
+      - 'tsconfig.json'
 
 jobs:
   build-docs:
