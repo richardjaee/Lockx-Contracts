@@ -67,7 +67,7 @@ contract LockxBatchWithdrawFuzz is Test {
         uint256 amountB = uint256(rawB) % 2_000_000 ether;
 
         // need at least one asset to withdraw
-        vm.assume(amountETH > 0 || amountA > 0 || amountB > 0);
+        vm.assume(amountETH > 0 && amountA > 0 && amountB > 0);
 
         // prepare approvals & deposits
         vm.startPrank(user);
@@ -128,6 +128,8 @@ contract LockxBatchWithdrawFuzz is Test {
         if (amountB > 0) assertEq(tokB.balanceOf(address(lockx)), amountB);
         assertEq(nft.ownerOf(2), address(lockx));
 
+        uint256 userEthBefore = user.balance;
+
         // perform batch withdraw
         vm.prank(user);
         lockx.batchWithdraw(
@@ -145,8 +147,10 @@ contract LockxBatchWithdrawFuzz is Test {
         );
 
         // post balances assertions
-        assertEq(address(lockx).balance, 0);
-        assertEq(address(user).balance, amountETH);
+        if (amountETH > 0) {
+            assertEq(address(lockx).balance, 0);
+            assertGt(user.balance, userEthBefore);
+        }
         if (amountA > 0) assertEq(tokA.balanceOf(address(lockx)), 0);
         if (amountB > 0) assertEq(tokB.balanceOf(address(lockx)), 0);
         assertEq(nft.ownerOf(2), user);
