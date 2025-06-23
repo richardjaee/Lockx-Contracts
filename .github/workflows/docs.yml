@@ -29,8 +29,8 @@ jobs:
           python-version: '3.x'
       - name: Install MkDocs
         run: pip install mkdocs mkdocs-material pygments mkdocs-markdownextradata-plugin
-      - name: Generate API markdown (solidity-docgen)
-        run: npx solidity-docgen --output docs/api
+      - name: Generate API markdown
+        run: npm run docs
       - name: Build MkDocs site
         run: mkdocs build
       - name: Deploy to GitHub Pages
