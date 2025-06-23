@@ -13,6 +13,9 @@ on:
       - 'mkdocs.yml'
       - 'tsconfig.json'
 
+permissions:
+  contents: write
+
 jobs:
   build-docs:
     runs-on: ubuntu-latest
