@@ -10,9 +10,38 @@ theme:
 
 nav:
   - Overview: index.md
-  - Audit report: ../reports/AUDIT_REPORT_v1.0.0.md
-  - Test methodology: ../reports/test-report-detailed-2025-06-23.md
-  - API Reference:
+  - Getting started:
+      - Introduction: getting-started/introduction.md
+      - Quick start: getting-started/quick-start.md
+  - Smart contracts:
+      - Contract overview: smart-contracts/overview.md
+      - Lockx contract: smart-contracts/lockx.md
+      - Deposits contract: smart-contracts/deposits.md
+      - Withdrawals contract: smart-contracts/withdrawals.md
+      - Signature verification: smart-contracts/signature-verification.md
+  - Lockbox:
+      - Secure asset storage: lockbox/secure-asset-storage.md
+      - Soulbound nature: lockbox/soulbound.md
+      - Multi-asset support: lockbox/multi-asset-support.md
+  - Security benefits:
+      - Wallet attack protection: security-benefits/wallet-attack-protection.md
+      - Contract attack protection: security-benefits/contract-attack-protection.md
+  - Key management:
+      - Key fraction technology: key-management/key-fraction.md
+      - 2FA protection: key-management/twofa.md
+      - Self custody signing: key-management/self-custody-signing.md
+      - Key rotation: key-management/key-rotation.md
+  - Security & authorization:
+      - EIP-712 signatures: security-authorization/eip-712.md
+      - Security measures: security-authorization/security-measures.md
+      - Direct contract interaction: security-authorization/direct-interaction.md
+  - FAQ & support:
+      - FAQs: faq-support/faq.md
+      - Troubleshooting: faq-support/troubleshooting.md
+      - Contact support: faq-support/contact-support.md
+  - Audit report: AUDIT_REPORT_v1.0.0.md
+  - Test methodology: test-report-detailed-2025-06-23.md
+  - API reference:
       - Lockx: api/Lockx.md
       - Deposits: api/Deposits.md
       - Withdrawals: api/Withdrawals.md
