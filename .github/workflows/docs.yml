@@ -8,6 +8,8 @@ on:
       - '.github/workflows/docs.yml'
       - 'package.json'
       - 'hardhat.config.ts'
+      - 'docs/**'
+      - 'mkdocs.yml'
 
 jobs:
   build-docs:
@@ -21,6 +23,10 @@ jobs:
           cache: 'npm'
       - name: Install Node deps
         run: npm ci
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
       - name: Install MkDocs
         run: pip install mkdocs mkdocs-material pygments mkdocs-markdownextradata-plugin
       - name: Generate API markdown (solidity-docgen)
