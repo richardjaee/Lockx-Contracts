@@ -1,0 +1,19 @@
+site_name: Lockx documentation
+site_url: https://docs.lockx.io
+repo_url: https://github.com/richardjaee/Lockx-Contracts
+edit_uri: ''
+
+theme:
+  name: material
+  palette:
+    scheme: default
+
+nav:
+  - Overview: index.md
+  - Audit report: ../reports/AUDIT_REPORT_v1.0.0.md
+  - Test methodology: ../reports/test-report-detailed-2025-06-23.md
+  - API Reference:
+      - Lockx: api/Lockx.md
+      - Deposits: api/Deposits.md
+      - Withdrawals: api/Withdrawals.md
+      - SignatureVerification: api/SignatureVerification.md

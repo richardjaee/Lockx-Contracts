@@ -14,7 +14,7 @@
     "forge:test": "PATH=\"$HOME/.foundry/bin:$PATH\" forge test -vv",
     "ci": "npm run test && npm run forge:test && npm run coverage && npm run slither",
     "build": "npx hardhat compile && typechain --target ethers-v6 --out-dir typechain-types",
-    "docs": "solidity-docgen --output docs",
+    "docs": "solidity-docgen --output docs/api",
     "format": "prettier --write .",
     "lint:sol": "solhint 'contracts/**/*.sol'"
   },
