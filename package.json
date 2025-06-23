@@ -14,7 +14,8 @@
     "forge:test": "PATH=\"$HOME/.foundry/bin:$PATH\" forge test -vv",
     "ci": "npm run test && npm run forge:test && npm run coverage && npm run slither",
     "build": "npx hardhat compile && typechain --target ethers-v6 --out-dir typechain-types",
-    "docs": "solidity-docgen --output docs/api",
+    "docs": "solidity-docgen --output docs/api", 
+    "docs:serve": "mkdocs serve", 
     "format": "prettier --write .",
     "lint:sol": "solhint 'contracts/**/*.sol'"
   },
@@ -53,6 +54,6 @@
     "prettier-plugin-solidity": "^1.0.0-beta.23",
     "solhint": "^3.6.0",
     "hardhat-gas-reporter": "^1.0.10",
-    "solidity-docgen": "^0.6.0"
+    "solidity-docgen": "0.6.0-beta.36"
   }
 }
