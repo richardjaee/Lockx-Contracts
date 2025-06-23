@@ -22,7 +22,7 @@ jobs:
           node-version: 20
           # cache disabled
       - name: Install Node deps
-        run: npm ci
+        run: npm ci --no-audit --no-fund
 
       - uses: actions/setup-python@v4
         with:
@@ -30,7 +30,7 @@ jobs:
       - name: Install MkDocs
         run: pip install mkdocs mkdocs-material pygments mkdocs-markdownextradata-plugin
       - name: Generate API markdown (solidity-docgen)
-        run: npm run docs
+        run: npx solidity-docgen --output docs/api
       - name: Build MkDocs site
         run: mkdocs build
       - name: Deploy to GitHub Pages
