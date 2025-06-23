@@ -1,0 +1,58 @@
+{
+  "name": "lockx-contracts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "hardhat test",
+    "coverage": "hardhat coverage",
+    "gas": "REPORT_GAS=true hardhat test",
+    "gas:report": "mkdir -p reports && REPORT_GAS=true hardhat test > reports/gas-report.txt",
+    "audit": "bash -c 'set -e; mkdir -p reports; TMP=$(mktemp); if [ -f foundry.toml ]; then mv foundry.toml \"$TMP\"; fi; npx hardhat compile; PATH=\"$PATH:$(python3 -m site --user-base)/bin:$HOME/.foundry/bin\" slither . --ignore-compile --filter-paths .github > reports/slither-report.txt; if [ -f \"$TMP\" ]; then mv \"$TMP\" foundry.toml; fi'",
+    "slither": "slither . --checklist --ignore-compile --filter-paths .github",
+    "mythril": "bash -c 'mkdir -p reports && myth analyze --execution-timeout 300 contracts/Lockx.sol -o json > reports/mythril-lockx.json'",
+    "forge:test": "PATH=\"$HOME/.foundry/bin:$PATH\" forge test -vv",
+    "ci": "npm run test && npm run forge:test && npm run coverage && npm run slither",
+    "build": "npx hardhat compile && typechain --target ethers-v6 --out-dir typechain-types",
+    "docs": "solidity-docgen --output docs",
+    "format": "prettier --write .",
+    "lint:sol": "solhint 'contracts/**/*.sol'"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/richardjaee/Lockx-Contracts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "Apache-2.0",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/richardjaee/Lockx-Contracts/issues"
+  },
+  "homepage": "https://github.com/richardjaee/Lockx-Contracts#readme",
+  "files": [
+    "artifacts",
+    "typechain-types",
+    "contracts",
+    "README.md",
+    "LICENSE"
+  ],
+  "types": "typechain-types/index.d.ts",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.9",
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/contracts": "^4.9.5",
+    "@typechain/ethers-v6": "^0.5.1",
+    "dotenv": "^16.5.0",
+    "hardhat": "^2.24.3",
+    "solidity-coverage": "^0.8.16",
+    "ts-node": "^10.9.2",
+    "typechain": "^8.3.2",
+    "typescript": "^5.8.3",
+    "prettier": "2.8.8",
+    "prettier-plugin-solidity": "^1.0.0-beta.23",
+    "solhint": "^3.6.0",
+    "hardhat-gas-reporter": "^1.0.10",
+    "solidity-docgen": "^0.6.0"
+  }
+}
