@@ -22,7 +22,6 @@ theme:
         name: Switch to dark mode
   features:
     - navigation.instant
-    - toc.integrate
     - toc.follow
 extra_css:
   - stylesheets/extra-v2.css
