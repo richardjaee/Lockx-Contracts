@@ -9,7 +9,7 @@
     "gas": "REPORT_GAS=true hardhat test",
     "gas:report": "mkdir -p reports && REPORT_GAS=true hardhat test > reports/gas-report.txt",
     "audit": "bash -c 'set -e; mkdir -p reports; TMP=$(mktemp); if [ -f foundry.toml ]; then mv foundry.toml \"$TMP\"; fi; npx hardhat compile; PATH=\"$PATH:$(python3 -m site --user-base)/bin:$HOME/.foundry/bin\" slither . --ignore-compile --filter-paths .github > reports/slither-report.txt; if [ -f \"$TMP\" ]; then mv \"$TMP\" foundry.toml; fi'",
-    "slither": "slither . --checklist --ignore-compile --filter-paths .github",
+    "slither": "npx hardhat compile && slither . --target hardhat --checklist --filter-paths .github",
     "mythril": "bash -c 'mkdir -p reports && myth analyze --execution-timeout 300 contracts/Lockx.sol -o json > reports/mythril-lockx.json'",
     "forge:test": "PATH=\"$HOME/.foundry/bin:$PATH\" forge test -vv",
     "ci": "npm run test && npm run forge:test && npm run coverage && npm run slither",
