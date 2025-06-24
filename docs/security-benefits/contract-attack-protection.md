@@ -1,3 +1,8 @@
 # Contract attack protection
 
-Measures against re-entrancy, re-play, and other contract level attacks.
+The core code follows battle-tested patterns:
+
+* Re-entrancy guard on every external entry point
+* Checks-effects-interactions order when moving tokens
+* Pull over push for ETH payments
+* No upgradeability ⇒ smaller attack surface

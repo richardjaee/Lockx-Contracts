@@ -1,3 +1,8 @@
 # Security measures
 
-Built-in checks (re-entrancy guard, pausable modifiers, etc.).
+Lockx passed a full audit (see Audit report). Key defences:
+
+* Re-entrancy guard
+* Pausable emergency stop
+* Immutable core
+* Extensive fuzz and invariant tests

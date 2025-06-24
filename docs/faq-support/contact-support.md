@@ -1,3 +1,3 @@
 # Contact support
 
-Email and Discord contacts for help and security disclosures.
+Open an issue on GitHub or join our Discord (#lockx-help).  For security disclosures email `security@lockx.io`.
