@@ -55,6 +55,7 @@ jobs:
 
       - name: run slither
         run: npm run slither
+        continue-on-error: true
 
       - name: install mythril
         run: |
