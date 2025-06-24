@@ -1,0 +1,31 @@
+/* Additional theming tweaks for Lockx Docs */
+
+/* Sidebar background and border */
+.md-sidebar {
+  background-color: #101213; /* near-black dark */
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* Active nav item indicator */
+.md-nav__link--active {
+  font-weight: 600;
+}
+
+/* Link hover */
+a:hover {
+  opacity: 0.85;
+}
+
+/* Code blocks */
+pre code {
+  font-size: 0.9rem;
+}
+
+/* Table styling */
+.md-typeset table {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.md-typeset th,
+.md-typeset td {
+  border-color: rgba(255, 255, 255, 0.1);
+}
