@@ -3,15 +3,6 @@ name: docs
 on:
   push:
     branches: ["main", "master"]
-    paths:
-      - 'contracts/**/*.sol'
-      - '.github/workflows/docs.yml'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'hardhat.config.ts'
-      - 'docs/**'
-      - 'mkdocs.yml'
-      - 'tsconfig.json'
   workflow_dispatch:
 
 permissions:
