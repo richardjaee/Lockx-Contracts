@@ -16,6 +16,18 @@ body {
   background-color: #111827;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+/* nav link transitions */
+.md-nav__link {
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+.md-nav__link:active {
+  transform: scale(0.97);
+}
+
 /* hero section */
 .hero {
   padding: 4rem 1rem;
