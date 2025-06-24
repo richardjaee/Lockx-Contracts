@@ -5,8 +5,18 @@ edit_uri: ''
 
 theme:
   name: material
+  font:
+    text: Inter
+    code: Fira Code
   palette:
-    scheme: default
+    - scheme: default
+      primary: indigo
+      accent: indigo
+  features:
+    - navigation.tabs
+    - navigation.top
+extra_css:
+  - stylesheets/extra.css
 
 nav:
   - Overview: index.md

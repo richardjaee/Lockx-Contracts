@@ -1,0 +1,30 @@
+/* Custom styles for Lockx Documentation */
+
+/* Use modern Inter font (already declared in mkdocs.yml) and enlarge base font */
+html {
+  font-size: 18px; /* increase from default 16px */
+}
+
+/* Headings a bit bolder */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+/* Navbar tweaks */
+.md-tabs__link {
+  font-size: 1.05rem; /* slightly larger text in nav tabs */
+}
+
+/* Home page hero section enhancement if we add .hero class */
+.hero {
+  text-align: center;
+  padding: 4rem 1rem;
+}
+.hero__title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.hero__subtitle {
+  font-size: 1.5rem;
+  color: var(--md-typeset-color-gray-600);
+}
