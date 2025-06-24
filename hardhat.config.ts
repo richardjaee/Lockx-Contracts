@@ -49,6 +49,10 @@ const config: HardhatUserConfig = {
     outDir: 'typechain-types',
     target: 'ethers-v6',
   },
+  docgen: {
+    path: './docs/api',
+    clear: true,
+  }
 };
 
 export default config;

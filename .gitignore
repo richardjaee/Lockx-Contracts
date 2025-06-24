@@ -1,0 +1,25 @@
+# Node
+node_modules/
+
+# Hardhat build artifacts
+artifacts/
+cache/
+
+# Coverage output
+coverage/
+coverage.json
+
+# Reports generated locally
+reports/gas-report.txt
+reports/slither-report.txt
+
+# Foundry build cache
+foundry/cache/
+foundry/out/
+
+# Typechain output (can be rebuilt)
+typechain-types/
+
+# IDE/temp files
+.DS_Store
+.env
