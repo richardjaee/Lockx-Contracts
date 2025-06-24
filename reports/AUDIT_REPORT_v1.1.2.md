@@ -1,6 +1,6 @@
-# Lockx – Security & Quality-Assurance Report (v1.0.0)
+# Lockx – Security & quality-assurance report (v1.1.2)
 
-*Generated 2025-06-23*
+_Generated 2025-06-23_
 
 ---
 ## 1 Executive summary
@@ -30,16 +30,18 @@ This document describes the assessment performed on the Lockx smart-contract sui
 `hardhat-gas-reporter` captures gas usage on every CI run.  A dedicated workflow (`gas-diff.yml`) posts a comparison table on pull-requests if consumption changes.
 
 ---
-## 3 Contract overview
-The project contains four production contracts:
-| File | Purpose |
-|------|---------|
-| `Lockx.sol` | Public ERC-721 entry-point implementing soul-bound lockboxes and batching helpers. |
-| `Deposits.sol` | Internal logic for adding ETH, ERC-20, and ERC-721 assets to a lockbox. |
-| `Withdrawals.sol` | Counterpart logic for authorised withdrawals. |
-| `SignatureVerification.sol` | EIP-712 domain separation and signature checks. |
+## 3 Contract architecture
 
-Only `Lockx.sol` exposes public functions; the remaining contracts are used internally via inheritance.
+Lockx is composed of four on-chain modules:
+
+| Contract | Responsibility |
+|----------|----------------|
+| `Lockx.sol` | User-facing ERC-721 contract that mints soul-bound lockboxes and exposes high-level deposit/withdraw helpers. |
+| `Deposits.sol` | Internal module that records ETH, ERC-20 and ERC-721 deposits, enforcing balance accounting. |
+| `Withdrawals.sol` | Internal counterpart that executes authorised withdrawals and keeps balances in sync. |
+| `SignatureVerification.sol` | Shared EIP-712 domain separator and signature validation utilities. |
+
+Only `Lockx.sol` is exposed to end-users; the other modules are inherited and never deployed separately.
 
 ---
 ## 4 Function-by-function analysis (`Lockx.sol`)

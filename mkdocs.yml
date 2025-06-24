@@ -31,6 +31,7 @@ extra_css:
 
 nav:
   - Overview: index.md
+  - Audit report: AUDIT_REPORT_v1.1.2.md
   - Getting started:
       - Introduction: getting-started/introduction.md
       - Quick start: getting-started/quick-start.md
@@ -60,7 +61,6 @@ nav:
       - FAQs: faq-support/faq.md
       - Troubleshooting: faq-support/troubleshooting.md
       - Contact support: faq-support/contact-support.md
-  - Audit report: AUDIT_REPORT_v1.0.0.md
   - Test methodology: test-report-detailed-2025-06-23.md
   - API reference:
       - Lockx: api/Lockx.md
