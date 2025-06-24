@@ -23,6 +23,7 @@ theme:
   features:
     - navigation.instant
     - navigation.expand
+    - navigation.sections
     - toc.integrate
     - toc.follow
 extra_css:
