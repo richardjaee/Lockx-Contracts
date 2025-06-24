@@ -9,26 +9,25 @@ theme:
     code: Fira Code
   palette:
     - scheme: slate  # default dark theme
-      primary: deep purple
-      accent: purple
+      primary: "#AD29FF"
+      accent: "#AD29FF"
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
     - scheme: default  # light theme
-      primary: deep purple
-      accent: purple
+      primary: "#AD29FF"
+      accent: "#AD29FF"
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
   features:
     - navigation.instant
-    - navigation.expand
-    - navigation.sections
     - toc.integrate
     - toc.follow
 extra_css:
   - stylesheets/extra-v2.css
   - stylesheets/theme_overrides-v1.css
+  - stylesheets/lockx_theme.css
 
 nav:
   - Overview: index.md
