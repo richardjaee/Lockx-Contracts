@@ -2,14 +2,102 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://docs.lockx.io/</loc>
-         <lastmod>2025-06-23</lastmod>
+         <lastmod>2025-06-24</lastmod>
     </url>
     <url>
          <loc>https://docs.lockx.io/AUDIT_REPORT_v1.0.0/</loc>
-         <lastmod>2025-06-23</lastmod>
+         <lastmod>2025-06-24</lastmod>
     </url>
     <url>
          <loc>https://docs.lockx.io/test-report-detailed-2025-06-23/</loc>
-         <lastmod>2025-06-23</lastmod>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/faq-support/contact-support/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/faq-support/faq/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/faq-support/troubleshooting/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/getting-started/introduction/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/getting-started/quick-start/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/key-management/key-fraction/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/key-management/key-rotation/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/key-management/self-custody-signing/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/key-management/twofa/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/lockbox/multi-asset-support/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/lockbox/secure-asset-storage/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/lockbox/soulbound/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/security-authorization/direct-interaction/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/security-authorization/eip-712/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/security-authorization/security-measures/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/security-benefits/contract-attack-protection/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/security-benefits/wallet-attack-protection/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/smart-contracts/deposits/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/smart-contracts/lockx/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/smart-contracts/overview/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/smart-contracts/signature-verification/</loc>
+         <lastmod>2025-06-24</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.lockx.io/smart-contracts/withdrawals/</loc>
+         <lastmod>2025-06-24</lastmod>
     </url>
 </urlset>
