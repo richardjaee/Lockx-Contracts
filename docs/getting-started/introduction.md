@@ -1,6 +1,9 @@
 # Introduction
 
-Lockx is a set of Ethereum smart contracts that let you lock, manage and withdraw multiple asset types with fine-grained security controls.  This guide explains the core idea and what you need before interacting with the contracts.
+Lockx is a decentralized platform for securely managing Ethereum assets via **Lockboxes** – tokenised vaults that can hold ETH, ERC-20 tokens and NFTs under fine-grained, self-custody controls.  This documentation portal covers the smart-contract internals, key-fraction technology and the overall business model.
+
+!!! tip "Independent business model"
+    Lockx runs on a simple platform-fee model.  There is **no token and no tokenomics** – the contracts are open-source (Apache-2.0) and free to integrate.  Our only revenue comes from optional key-management fees, allowing us to focus on rock-solid infrastructure rather than speculative incentives.
 
 ## Why use Lockx?
 
