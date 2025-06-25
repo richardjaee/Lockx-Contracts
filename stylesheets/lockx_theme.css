@@ -16,6 +16,11 @@ body {
   background-color: #111827;
 }
 
+/* hide default top header to mimic original React layout */
+.md-header {
+  display: none;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -33,10 +38,10 @@ html {
 @media screen and (min-width: 960px) {
   .md-sidebar--primary {
     position: fixed;
-    top: var(--md-header-height, 64px);
+    top: 0;
     left: 0;
     width: 260px; /* constant width to prevent layout shift */
-    height: calc(100vh - var(--md-header-height, 64px));
+    height: 100vh;
     overflow-y: auto;
   }
   /* push main content to the right */
