@@ -40,6 +40,7 @@ nav:
   - Secure asset storage: lockbox/secure-asset-storage.md
   - Soul-bound nature: lockbox/soulbound.md
   - Multi-asset support: lockbox/multi-asset-support.md
+  - Wallet representation: lockbox/wallet-representation.md
 
   # Security benefits
   - Wallet attack protection: security-benefits/wallet-attack-protection.md

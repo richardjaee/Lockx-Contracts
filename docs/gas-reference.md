@@ -14,6 +14,18 @@ Lockx’s CI pipeline runs `hardhat-gas-reporter` on every commit.  The full sna
 
 ---
 
+## Gas optimisation note
+
+Due to the current 30 M gas target, **avoid batching more than three distinct asset types in one transaction**.  Large `batchWithdraw` or `batchDeposit` calls that mix many ERC-721 token IDs plus ERC-20/ETH may approach the per-block limit and risk running out of gas.
+
+Practical tips:
+
+* Group at most **3 assets** (e.g. 1×ETH + 1×ERC-20 + up to 2 NFTs) per batch.
+* Prefer multiple small batches over one huge calldata blob— calldata cost scales linearly.
+* When withdrawing many NFTs, specify consecutive token IDs to save 4 bytes per ID.
+
+---
+
 ## How we measure
 
 1. `hardhat.config.ts` sets `gasReporter` with Paris hardfork rules and `viaIR` compilation.  
