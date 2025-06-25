@@ -34,6 +34,11 @@ nav:
   - Quick start: getting-started/quick-start.md
 
   # Smart-contract reference
+  - Contract overview: smart-contracts/overview.md
+  - Lockx contract: smart-contracts/lockx.md
+  - Deposits helper: smart-contracts/deposits.md
+  - Withdrawals helper: smart-contracts/withdrawals.md
+  - Signature verification: smart-contracts/signature-verification.md
 
 
   # Lockbox design
