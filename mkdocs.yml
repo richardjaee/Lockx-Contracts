@@ -26,6 +26,8 @@ extra_css:
   - stylesheets/extra-v2.css
   - stylesheets/theme_overrides-v1.css
   - stylesheets/lockx_theme.css
+extra_javascript:
+  - scripts/fade.js
 
 nav:
   - Overview: index.md

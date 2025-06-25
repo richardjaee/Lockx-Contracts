@@ -59,6 +59,15 @@ html {
 
 /* nav link transitions */
 
+/* ──────────── Fade-in page transition ─────────── */
+.md-main, .md-footer {
+  transition: opacity 0.15s ease-in-out;
+}
+.fade-phase .md-main,
+.fade-phase .md-footer {
+  opacity: 0;
+}
+
 /* hero section */
 .hero {
   padding: 4rem 1rem;
