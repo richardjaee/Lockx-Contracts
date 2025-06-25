@@ -52,6 +52,16 @@ nav:
   # Security benefits
   - Wallet attack protection: security-benefits/wallet-attack-protection.md
   - Contract attack protection: security-benefits/contract-attack-protection.md
+  - Wallet private-key compromise: security-benefits/wallet-attack-protection.md#1-wallet-private-key-compromise
+  - Signature phishing: security-benefits/wallet-attack-protection.md#2-signature-phishing
+  - Blind signature / permit drainers: security-benefits/wallet-attack-protection.md#3-blind-signature-permit-drainers
+  - Malware & RATs: security-benefits/wallet-attack-protection.md#4-malware-rats
+  - Seed-phrase compromise: security-benefits/wallet-attack-protection.md#5-seed-phrase-compromise
+  - Reentrancy: security-benefits/contract-attack-protection.md#1-reentrancy
+  - Signature replay: security-benefits/contract-attack-protection.md#2-signature-replay
+  - Transaction ordering / MEV: security-benefits/contract-attack-protection.md#3-transaction-ordering-mev
+  - Unauthorized function access: security-benefits/contract-attack-protection.md#4-unauthorized-function-access
+  - Grief ETH send & self-destruct: security-benefits/contract-attack-protection.md#5-grief-eth-send-self-destruct
 
   # Key management
   - Key fraction technology: key-management/key-fraction.md
