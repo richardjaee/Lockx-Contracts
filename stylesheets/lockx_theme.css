@@ -59,9 +59,11 @@ html {
 
 /* nav link transitions */
 
-/* ──────────── Fade-in page transition ─────────── */
+/* ──────────── Fade-in page transition & layout stability ─────────── */
+html { scrollbar-gutter: stable; }
+body { overflow-y: scroll; }
 .md-main, .md-footer {
-  transition: opacity 0.15s ease-in-out;
+  transition: opacity 0.25s ease-in-out;
 }
 .fade-phase .md-main,
 .fade-phase .md-footer {
