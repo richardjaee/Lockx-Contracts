@@ -28,6 +28,29 @@ html {
   transform: scale(0.97);
 }
 
+/* ───────────────────── Sticky sidebar ─────────────── */
+/* keep primary nav fixed on left so it no longer jumps */
+@media screen and (min-width: 960px) {
+  .md-sidebar--primary {
+    position: fixed;
+    top: var(--md-header-height, 64px);
+    left: 0;
+    width: 260px; /* constant width to prevent layout shift */
+    height: calc(100vh - var(--md-header-height, 64px));
+    overflow-y: auto;
+  }
+  /* push main content to the right */
+  .md-main, .md-footer {
+    margin-left: 260px;
+  }
+  /* optionally hide the in-page toc to avoid extra panel */
+  .md-sidebar--secondary {
+    display: none;
+  }
+}
+
+/* nav link transitions */
+
 /* hero section */
 .hero {
   padding: 4rem 1rem;
