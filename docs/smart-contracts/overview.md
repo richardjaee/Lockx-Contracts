@@ -28,22 +28,6 @@ sequenceDiagram
 
 Only Lockx stores state; the helper contracts keep the external surface small and auditable.
 
-### Data model (simplified)
+[See the full data model →](data-model.md)
 
-| Field | Type | Notes |
-|-------|------|-------|
-| `owner` | `address` | Wallet that can authorise withdrawal |
-| `token` | `address` | Zero address means native ETH |
-| `amount` | `uint256` | For ERC-721 the tokenId is encoded here |
-| `unlockTime` | `uint40` | Unix timestamp after which a withdrawal *may* be executed |
-| `nonce` | `uint32` | Bumps on every withdrawal to avoid replay |
-
-The full struct lives in `ILockx.Lock`.
-
-### Typical flows
-
-* **Simple time lock** – User locks tokens with an unlockTime; later they call `withdraw()` directly—no signature needed.
-* **Guarded withdrawal** – User locks but enforces signature + nonce; front-end helps sign the message and submits it.
-* **Third-party unlock** – Custodial recovery or DAO; anyone can relay a valid signature, but funds still go to `owner`.
-
-Continue to the per-contract pages for deeper details.
+[See typical flows →](typical-flows.md)

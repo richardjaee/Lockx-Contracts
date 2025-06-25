@@ -38,6 +38,8 @@ nav:
   - Lockx contract: smart-contracts/lockx.md
   - Deposits helper: smart-contracts/deposits.md
   - Withdrawals helper: smart-contracts/withdrawals.md
+  - Data model: smart-contracts/data-model.md
+  - Typical flows: smart-contracts/typical-flows.md
   - Signature verification: smart-contracts/signature-verification.md
 
 
