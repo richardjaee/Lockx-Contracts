@@ -2,6 +2,12 @@
 
 _Generated 2025-06-23_
 
+> **Executive summary**  
+> • No critical or high-severity issues found across Slither, Mythril, fuzz, and invariant tests.  
+> • 100 % line & branch coverage; invariant suites prove balance conservation and nonce monotonicity.  
+> • Gas snapshot and CI gas-diff guardrails in place to catch regressions.  
+> • Recommend keeping `viaIR` compiler flag and retaining invariant tests on future changes.
+
 ---
 ## 1 Executive summary
 This document describes the assessment performed on the Lockx smart-contract suite prior to the v1.0.0 release.  All findings in this report refer to commit `c72cef38` (current `main` HEAD).
