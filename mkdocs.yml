@@ -4,6 +4,48 @@ edit_uri: ''
 
 theme:
   name: material
+  palette:
+    scheme: slate
+  features:
+    - navigation.instant
+
+nav:
+  - Overview: index.md
+  - Quick start: quick-start.md
+
+extra_css:
+  - stylesheets/lockx_theme.css
+extra_javascript:
+  - scripts/fade.js
+repo_url: https://github.com/richardjaee/Lockx-Contracts
+edit_uri: ''
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+  features:
+    - navigation.instant
+
+nav:
+  - Overview: index.md
+
+extra_css:
+  - stylesheets/lockx_theme.css
+extra_javascript:
+  - scripts/fade.js
+
+repo_url: https://github.com/richardjaee/Lockx-Contracts
+nav:
+  - Overview: index.md
+
+extra_css:
+  - stylesheets/lockx_theme.css Lockx documentation
+repo_url: https://github.com/richardjaee/Lockx-Contracts
+edit_uri: ''
+
+theme:
+  name: material
   font:
     text: Inter
     code: Fira Code
