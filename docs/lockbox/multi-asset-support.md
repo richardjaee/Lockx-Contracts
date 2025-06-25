@@ -11,6 +11,55 @@ One Lockbox can hold fungible **and** non-fungible assets behind the same withdr
 
 ---
 
+## Batch operations
+
+Lockx lets you **bundle** ETH, ERC-20s and NFTs in a single tx.
+
+### Batch deposit
+```solidity
+function batchDeposit(
+    uint256 tokenId,
+    uint256 amountETH,
+    address[] calldata tokens,
+    uint256[] calldata amounts,
+    address[] calldata nftContracts,
+    uint256[] calldata nftIds,
+    bytes32 ref
+) external payable
+```
+* Verifies `msg.value == amountETH` and length matches.
+* Pushes each asset through the regular `_deposit*` helpers inside `unchecked` loops.
+* Emits one `DepositedBatch` event.
+
+### Batch unbag / withdraw
+Same idea with a **single** `verifySignature` call:
+```solidity
+function batchUnbag(
+    uint256 tokenId,
+    bytes32 msgHash,
+    bytes   sig,
+    uint256 amountETH,
+    address[] calldata tokens,
+    uint256[] calldata amounts,
+    address[] calldata nftContracts,
+    uint256[] calldata nftIds,
+    address recipient,
+    uint256 expiry
+) external
+```
+* Validates `block.timestamp ≤ expiry`.
+* Signature covers **all** arrays, so any tampering invalidates the op.
+
+#### Why batch?
+* Cuts gas up to 40 % vs separate calls.
+* Simplifies portfolio rebalances (e.g. move 1 ETH + 2 NFTs to cold wallet).
+* Keeps the nonce monotonic – one increment per portfolio action.
+
+!!! warning "Soft gas limit"
+    Because NFT loops are storage-heavy we advise ≤3 distinct assets per batch on mainnet to avoid block gas limits. Layer-2s have ample headroom.
+
+---
+
 ## Internal storage layout
 
 ```solidity
