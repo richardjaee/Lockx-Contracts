@@ -1,6 +1,12 @@
 # Soul-bound nature (EIP-5192)
 
-Lockboxes are **soul-bound NFTs**: once minted they can never be transferred, listed, or sold.  All assets remain tied to the original wallet until they are withdrawn through the Lockx contract’s authorised flows.
+Lockboxes mint as **soul-bound NFTs** – they cannot be transferred, approved, or listed. Assets remain tied to the original wallet until a valid Lockx withdrawal executes.
+
+| Benefit | Why it matters |
+|---------|---------------|
+| Anti-phishing | Attackers cannot trick you into "gift" transfers. |
+| Leak containment | A stolen seed is useless without a Lockx signature. |
+| Clean portfolio | Marketplaces hide ERC-5192 tokens by default. |
 
 ---
 
@@ -54,5 +60,3 @@ Because `_transfer` is overridden to **always revert**, even internal calls to t
 
 **Can I renounce soul-bound behaviour?**  No.  It is a deliberate safety feature.  Use a new Lockbox if you require a transferrable wrapper.
 
-
-Set the `soulbound` flag to mark a lock as non-transferable. Tokens stay tied to the original owner; even after withdrawal they can only be sent back to the same wallet. Good for holdings you never want to mix with a hot wallet.
