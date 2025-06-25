@@ -1,5 +1,48 @@
 # Key fraction technology
 
+**Key fraction technology (KFT)** splits a private key into two random halves so the full secret never sits in one place.
+
+| Symbol | Held by | Storage |
+|--------|---------|---------|
+| 𝑘ᴾ (platform fraction) | Lockx backend | Encrypted Google-KMS HSM |
+| 𝑘ᵁ (user fraction) | Your wallet | Transient EIP-191 signature |
+| 𝐾 = 𝑘ᴾ ⊕ 𝑘ᵁ | Derived on demand | RAM for milliseconds |
+
+A thief must compromise **both** your wallet *and* the HSM within the 60-second signing window—a tall order.
+
+---
+
+## Signature flow
+
+```
+User wallet   Sign 𝑘ᵁ ─────┐   (never leaves device)
+                               ▼
+Lockx backend   decrypt 𝑘ᴾ      ⊕   →  derive 𝐾   →  sign EIP-712  →  erase 𝐾
+```
+
+The resulting signature is handed to the withdrawal transaction where `ecrecover` validates it.
+
+---
+
+## Security wins
+
+* No single point of failure: leak either half → still safe.
+* Rotatable: you can rotate 𝑘ᴾ or 𝑘ᵁ independently if a device is lost.
+* Hardware-anchored: 𝑘ᴾ lives in an HSM with audit logs.
+* Cheap: avoids on-chain multisig gas cost.
+
+---
+
+## Choosing a tier
+
+| Tier | Key location | Requires hardware? | Fee |
+|------|--------------|--------------------|-----|
+| Self-custody | Full key in your wallet | Recommended (Ledger/Trezor) | $0 |
+| Key-fraction (KFT) | Split halves | Wallet + 2FA | $9.99/mo |
+
+Switch anytime by withdrawing and redepositing with the desired tier.
+
+
 Lockx offers an optional **key-fraction** tier for users that prefer extra security without losing self-custody.  Instead of storing a full private key anywhere, the key is deterministically re-derived on-demand from *two* independent pieces – one held by you, the other held (encrypted) by Lockx.
 
 ---
