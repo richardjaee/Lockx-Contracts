@@ -25,27 +25,15 @@ This portal covers:
 
 # Quick start
 
+See the dedicated [quick start guide](quick-start.md) for a full walkthrough. Below is a high-level summary.
+
 Follow these steps to connect your wallet and create your first Lockbox.
 
-## 1  Connect your wallet
-Click **Connect wallet** in the top bar and choose your provider. Confirm any pop-up requests.
-
-Supported wallets: MetaMask · Coinbase Wallet · Brave Wallet
-
-## 2  Authenticate the session
-After connecting, sign a short EIP-712 message to open a 3-hour session (no gas fee).
-
-## 3  Select assets
-In **Portfolio** choose **Create Lockbox** – or *Create new Lockbox* inside an existing one – then select the tokens/NFTs to deposit. We recommend ≤ 3 assets per mint to avoid out-of-gas failures.
-
-## 4  Choose key-management & pay fee
-* **Self-custody keys** — $4.99, you manage the secondary key + 2FA.
-* **Lockx key-fraction** — $9.99, our encrypted fraction combines with your signature to derive the withdrawal key.
-
-Pay the platform fee via Stripe; you’ll be redirected back automatically.
-
-## 5  Mint your Lockbox
-Derive the secondary key, then mint the soul-bound Lockbox NFT to your address. You can deposit or withdraw anytime with no further fees or limits.
+1. Connect wallet → MetaMask/Coinbase/Brave
+2. Sign EIP-712 message → opens 3-hour session (no gas)
+3. Select assets → up to 3 tokens or NFTs
+4. Pay platform fee & choose key-management tier
+5. Mint soul-bound Lockbox NFT
 
 
 Lockx is a zero-trust digital-asset vault.  Each deposit mints a **soul-bound Lockbox NFT** that represents ownership of a private vault capable of holding ETH, ERC-20 tokens and NFTs.  Withdrawals are authorised by an **on-demand, dual-fraction key** (see Key fraction technology) via EIP-712 signatures.
@@ -56,7 +44,7 @@ Lockx is a zero-trust digital-asset vault.  Each deposit mints a **soul-bound Lo
 * No metadata or balances are exposed on-chain.  Planned zk integrations will hide them even from the platform.
 * Everything is open-source (Apache-2.0) and audited.  There is no token, no hidden fees, and no vendor lock-in.
 
-Use the sidebar to dive into the contracts, security architecture and roadmap, or jump straight to the [quick start](getting-started/quick-start.md) if you want to test locally.
+Use the sidebar to dive into the contracts, security architecture and roadmap, or jump straight to the [quick start](quick-start.md) if you want to test locally.
 
  This site aggregates all publicly available information about the Lockx smart-contract suite.
 

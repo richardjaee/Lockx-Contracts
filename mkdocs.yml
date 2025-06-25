@@ -12,6 +12,51 @@ theme:
 nav:
   - Overview: index.md
   - Quick start: quick-start.md
+  - Smart contracts: smart-contracts.md
+
+extra_css:
+  - stylesheets/lockx_theme.css
+extra_javascript:
+  - scripts/fade.js
+repo_url: https://github.com/richardjaee/Lockx-Contracts
+edit_uri: ''
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+  features:
+    - navigation.instant
+
+nav:
+  - Overview: index.md
+  - Quick start: quick-start.md
+
+extra_css:
+  - stylesheets/lockx_theme.css
+extra_javascript:
+  - scripts/fade.js
+  palette:
+    scheme: slate
+  features:
+    - navigation.instant
+
+nav:
+  - Overview: index.md
+  - Quick start: quick-start.md
+
+extra_css:
+  - stylesheets/lockx_theme.css
+extra_javascript:
+  - scripts/fade.js
+  palette:
+    scheme: slate
+  features:
+    - navigation.instant
+
+nav:
+  - Overview: index.md
+  - Quick start: quick-start.md
 
 extra_css:
   - stylesheets/lockx_theme.css
