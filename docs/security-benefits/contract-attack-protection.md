@@ -13,21 +13,44 @@ Lockx contracts follow battle-tested patterns and add extra layers to block comm
 ## Sample: nonReentrant guard
 
 ```solidity
-function unbagETH(
+function withdrawETH(
     uint256 tokenId,
     bytes32 messageHash,
     bytes calldata signature,
-    uint256 amount,
+    uint256 amountETH,
     address recipient,
-    bool burnToken,
-    bytes32 referenceId
+    bytes32 referenceId,
+    uint256 signatureExpiry
 ) external nonReentrant {
-    // effects: update balances
-    _decreaseBalance(tokenId, amount);
+    _requireOwnsLockbox(tokenId);
+    if (block.timestamp > signatureExpiry) revert SignatureExpired();
 
-    // interactions: transfer ETH after state change
-    (bool ok, ) = recipient.call{value: amount}("");
-    require(ok, "ETH_XFER_FAIL");
+    // 1) Verify signature & update nonce
+    bytes memory data = abi.encode(
+        tokenId,
+        amountETH,
+        recipient,
+        referenceId,
+        msg.sender,
+        signatureExpiry
+    );
+    verifySignature(
+        tokenId,
+        messageHash,
+        signature,
+        address(0),
+        OperationType.WITHDRAW_ETH,
+        data
+    );
+
+    // 2) Effects: update internal balance
+    uint256 bal = _ethBalances[tokenId];
+    if (bal < amountETH) revert NoETHBalance();
+    _ethBalances[tokenId] = bal - amountETH;
+
+    // 3) Interaction: transfer ETH after state changes
+    (bool s, ) = payable(recipient).call{value: amountETH}("");
+    if (!s) revert EthTransferFailed();
 }
 ```
 

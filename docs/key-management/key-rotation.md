@@ -8,7 +8,7 @@ Rotating the Lockx key lets you invalidate an old signing key and assign a new o
 
 1. Generate a fresh EOA (hardware wallet or key-fraction).
 2. Sign a **RotateKey** EIP-712 message with the *current* Lockx key.
-3. Call `rotateLockxKey` on-chain with the parameters below.
+3. Call `rotateLockboxKey` on-chain with the parameters below.
 
 ### Solidity
 
@@ -16,7 +16,7 @@ Rotating the Lockx key lets you invalidate an old signing key and assign a new o
 /**
  * @dev Rotates the Lockx public key associated with a Lockbox.
  */
-function rotateLockxKey(
+function rotateLockboxKey(
     uint256  tokenId,
     bytes32  messageHash,
     bytes    calldata signature,
@@ -24,7 +24,7 @@ function rotateLockxKey(
     bytes32  referenceId,
     uint256  signatureExpiry
 ) external {
-    _requireOwnsBag(tokenId);
+    _requireOwnsLockbox(tokenId);
     if (block.timestamp > signatureExpiry) revert SignatureExpired();
 
     bytes memory data = abi.encode(
@@ -60,7 +60,7 @@ function rotateLockxKey(
 ## Flow overview
 
 1. **Owner** signs the rotate message with the *current* Lockx key.
-2. Transaction calls `rotateLockxKey`.
+2. Transaction calls `rotateLockboxKey`.
 3. Contract verifies signature, deadline and nonce.
 4. Internal mapping is updated to `newPublicKey` and an event is emitted.
 5. Subsequent withdrawals must be signed by the **new** key.
