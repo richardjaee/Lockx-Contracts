@@ -1,5 +1,16 @@
 # Key rotation
 
+Regular rotation invalidates old keys without moving assets.
+
+**Checklist**
+
+1. Generate new EOA (Ledger, Safe, or KFT).
+2. Sign RotateKey message with _current_ key.
+3. Call `rotateLockboxKey` before the signature deadline.
+4. Backup the new key; delete the old one.
+
+---
+
 Rotating the Lockx key lets you invalidate an old signing key and assign a new one **without moving the assets**.  Use it routinely (e.g. every 6 months) or immediately after any suspected compromise.
 
 ---
