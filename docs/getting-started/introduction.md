@@ -14,6 +14,16 @@ At a glance:
 
 ---
 
+## Background
+
+Crypto custody forces a trade-off between convenience and safety.  Centralised exchanges offer insurance and recovery but collapse into a single point of failure.  Pure self-custody puts every coin behind one private key and a single signature approval screen.
+
+Lockx introduces a middle ground: a vault represented by a soul-bound NFT and controlled by a key that is deterministically _derived_ from two fractions held in different places.  You keep signing authority in your existing wallet; the platform stores only its own useless share.  Neither side alone can approve a withdrawal.  No new hardware wallets, no seed-phrase gymnastics.
+
+For the security rationale and threat model see [Why use Lockx?](why-use-lockx.md); for cryptographic detail view the [whitepaper](../whitepaper.md).
+
+---
+
 ## How a deposit works
 
 1. User calls `depositETH` / `depositERC20` / `depositERC721`.  
@@ -31,13 +41,7 @@ There is **no long-lived private key** stored anywhere.
 
 ---
 
-## Prerequisites
-
-* EVM wallet capable of EIP-712 signatures (MetaMask ≥ v11, Rabby, Ledger via MetaMask, etc.).  
-* Node.js ≥ 18 if compiling locally.  
-* Familiarity with Hardhat or Foundry for advanced testing.
-
-Continue to the [quick-start](quick-start.md) guide for a copy-paste example or read the [whitepaper](../whitepaper.md) for the full cryptographic deep dive.
+[See the prerequisites →](prerequisites.md)
 
 Lockx is a decentralized platform for securely managing Ethereum assets via **Lockboxes** – tokenised vaults that can hold ETH, ERC-20 tokens and NFTs under fine-grained, self-custody controls.  This documentation portal covers the smart-contract internals, key-fraction technology and the overall business model.
 
@@ -50,10 +54,4 @@ Lockx is a decentralized platform for securely managing Ethereum assets via **Lo
 
 
 
-## Prerequisites
 
-* A wallet that can sign EIP-712 messages (e.g. MetaMask, Rabby, Ledger via MetaMask).
-* Node.js ≥ 18 if you plan to compile and test locally.
-* Basic familiarity with Hardhat or Foundry for contract deployment.
-
-Continue to the [quick-start](quick-start.md) for a copy-paste example.

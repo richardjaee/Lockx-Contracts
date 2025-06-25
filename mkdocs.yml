@@ -32,6 +32,8 @@ extra_javascript:
 nav:
   - Overview: index.md
   - Introduction: getting-started/introduction.md
+  - Why use Lockx?: getting-started/why-use-lockx.md
+  - Prerequisites: getting-started/prerequisites.md
   - Whitepaper: whitepaper.md
   - Quick start: getting-started/quick-start.md
 
