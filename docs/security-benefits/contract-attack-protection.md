@@ -1,77 +1,35 @@
 # Contract attack protection
 
-Lockx’s core contracts inherit hardened patterns from OpenZeppelin and are *intentionally minimal*. Fewer lines of code = fewer bugs. Below are the key defences that protect against on-chain exploits.
+Lockx contracts follow battle-tested patterns and add extra layers to block common smart-contract exploits.
 
----
+| Attack vector | Mitigation in Lockx |
+|--------------|---------------------|
+| **Reentrancy** | Every external entry point uses OpenZeppelin’s `nonReentrant` modifier.  State is updated (effects) **before** tokens are transferred (interactions). |
+| **Signature replay** | Each Lockbox tracks a **monotonically-increasing nonce**.  The nonce is embedded in every EIP-712 message and auto-incremented after a successful withdrawal/change, so a signature is valid exactly once. |
+| **Transaction-ordering manipulation (front-running / sandwich)** | Withdraw signatures include a `deadline` and unique `referenceId`.  A transaction arriving after `deadline` or re-using an old `referenceId` reverts, limiting the window for MEV attacks. |
+| **Unexpected ETH sends / self-destruct griefing** | ETH is pulled, not pushed; the contract does not implement a `receive()` function, so unsolicited ETH is irrecoverable but cannot break logic. |
+| **Upgradeability foot-guns** | The core Lockx contract is **non-upgradeable** (no proxy), reducing governance / implementation risk. |
 
-## Re-entrancy guard
-
-Every external function that transfers value is wrapped in `nonReentrant`.
-
-```solidity
-function withdraw(WithdrawRequest calldata req, bytes calldata sig)
-    external
-    nonReentrant
-{
-    _validate(req, sig);
-    _transfer(req);
-}
-```
-
-This single modifier blocks classic attacks like the 2016 DAO drain or ERC-777 callback loops.
-
----
-
-## Checks-effects-interactions
-
-State is updated *before* any external call:
+## Sample: nonReentrant guard
 
 ```solidity
-function _transfer(WithdrawRequest memory r) internal {
-    Lock storage l = locks[r.key];
-    l.amount -= r.amount;           // effects
-    l.nonce  += 1;
+function unbagETH(
+    uint256 tokenId,
+    bytes32 messageHash,
+    bytes calldata signature,
+    uint256 amount,
+    address recipient,
+    bool burnToken,
+    bytes32 referenceId
+) external nonReentrant {
+    // effects: update balances
+    _decreaseBalance(tokenId, amount);
 
-    _sendToken(r.token, r.to, r.amount); // interaction
+    // interactions: transfer ETH after state change
+    (bool ok, ) = recipient.call{value: amount}("");
+    require(ok, "ETH_XFER_FAIL");
 }
 ```
-
-Even if the recipient is a malicious contract, the internal balance is already debited so re-entry does nothing.
-
----
-
-## Pull over push (ETH)
-
-Users *pull* ETH with `withdraw()`; the contract never auto-forwards ether. All sends use `call{value:…}` and return-value checks to avoid lost funds.
-
----
-
-## Immutability and no upgrade proxies
-
-Lockx is **deployed once and forever**—no `delegatecall` proxy, no upgrade keys. Auditors can therefore reason about the exact bytecode that holds user funds.
-
----
-
-## Dependency sanitation
-
-* **OpenZeppelin 4.9.5** – last minor before 5.x breaking changes, thoroughly audited.  
-* No diamond patterns, no assembly except the lightweight ECDSA `recover` optimisation included upstream.
-
----
-
-## Differential fuzzing & invariants
-
-See the [test report](../../reports/test-report-2025-06-23.md) for fuzz suites that continuously hammer random inputs across:
-
-* ERC-20 fee-on-transfer variants.  
-* Token contracts that revert on `transfer` to ensure proper bubble-up.  
-* Malicious ERC-721 receivers that re-enter during `onERC721Received`.
-
-The invariants confirm:
-
-* Total ETH inside the contract equals sum of all `_baggedETH`.  
-* ERC-20 balances never underflow.  
-* Nonces strictly increase.
 
 
 The core code follows battle-tested patterns:
