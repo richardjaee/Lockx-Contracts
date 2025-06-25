@@ -29,6 +29,72 @@ extra_css:
 
 nav:
   - Overview: index.md
+  - Quick start: getting-started/quick-start.md
+  - Introduction: getting-started/introduction.md
+  - Why use Lockx?: getting-started/why-use-lockx.md
+  - Contract overview: smart-contracts/overview.md
+  - Lockx contract: smart-contracts/lockx.md
+  - Deposits contract: smart-contracts/deposits.md
+  - Withdrawals contract: smart-contracts/withdrawals.md
+  - Signature verification: smart-contracts/signature-verification.md
+  - Secure asset storage: lockbox/secure-asset-storage.md
+  - Soul-bound nature: lockbox/soulbound.md
+  - Multi-asset support: lockbox/multi-asset-support.md
+  - Wallet attack protection: security-benefits/wallet-attack-protection.md
+  - Contract attack protection: security-benefits/contract-attack-protection.md
+  - Key fraction technology: key-management/key-fraction.md
+  - 2FA protection: key-management/twofa.md
+  - Self custody signing: key-management/self-custody-signing.md
+  - Key rotation: key-management/key-rotation.md
+  - EIP-712 signatures: security-authorization/eip-712.md
+  - Security measures: security-authorization/security-measures.md
+  - Direct contract interaction: security-authorization/direct-interaction.md
+  - Gas reference: gas-reference.md
+  - Security considerations: security-considerations.md
+  - Audit report: AUDIT_REPORT_v1.1.2.md
+  - FAQs: faq-support/faq.md
+  - Troubleshooting: faq-support/troubleshooting.md
+  - Contact support: faq-support/contact-support.md
+  - Bug bounty: bug-bounty.md
+  - Versioning: versioning.md
+  - License: license.md
+  - Contributing: contributing.md
+  - Roadmap: roadmap.md
+  - Test methodology: test-report-detailed-2025-06-23.md
+  - Overview: index.md
+  - Quick start: getting-started/quick-start.md
+  - Introduction: getting-started/introduction.md
+  - Why use Lockx?: getting-started/why-use-lockx.md
+  - Contract overview: smart-contracts/overview.md
+  - Lockx contract: smart-contracts/lockx.md
+  - Deposits contract: smart-contracts/deposits.md
+  - Withdrawals contract: smart-contracts/withdrawals.md
+  - Signature verification: smart-contracts/signature-verification.md
+  - Secure asset storage: lockbox/secure-asset-storage.md
+  - Soul-bound nature: lockbox/soulbound.md
+  - Multi-asset support: lockbox/multi-asset-support.md
+  - Wallet attack protection: security-benefits/wallet-attack-protection.md
+  - Contract attack protection: security-benefits/contract-attack-protection.md
+  - Key fraction technology: key-management/key-fraction.md
+  - 2FA protection: key-management/twofa.md
+  - Self custody signing: key-management/self-custody-signing.md
+  - Key rotation: key-management/key-rotation.md
+  - EIP-712 signatures: security-authorization/eip-712.md
+  - Security measures: security-authorization/security-measures.md
+  - Direct contract interaction: security-authorization/direct-interaction.md
+  - FAQs: faq-support/faq.md
+  - Troubleshooting: faq-support/troubleshooting.md
+  - Contact support: faq-support/contact-support.md
+  - Gas reference: gas-reference.md
+  - Audit report: AUDIT_REPORT_v1.1.2.md
+  - Security considerations: security-considerations.md
+  - Bug bounty: bug-bounty.md
+  - Versioning: versioning.md
+  - License: license.md
+  - Contributing: contributing.md
+  - Roadmap: roadmap.md
+  - Test methodology: test-report-detailed-2025-06-23.md
+  - Overview: index.md
   - Audit report: AUDIT_REPORT_v1.1.2.md
   - Getting started:
       - Introduction: getting-started/introduction.md
