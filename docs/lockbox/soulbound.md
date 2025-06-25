@@ -1,65 +1,58 @@
-# Soulbound nature
+# Soul-bound nature (EIP-5192)
 
-Lockboxes are **non-transferable NFTs** compliant with [EIP-5192](https://eips.ethereum.org/EIPS/eip-5192). Once minted they are *soul-bound* to your wallet for life—no admin can migrate, claw back, or pause transfers because transfers are disabled at the contract level.
-
----
-
-## Why soul-bound?
-
-* Prevents phishing or marketplace mis-listing.  
-* Guarantees the vault key can’t be sold or accidentally sent to a burn address.  
-* Simplifies auditing—no hidden “escape hatch” that could drain the box.
+Lockboxes are **soul-bound NFTs**: once minted they can never be transferred, listed, or sold.  All assets remain tied to the original wallet until they are withdrawn through the Lockx contract’s authorised flows.
 
 ---
 
-## Standard interface
+## Standard compliance
 
-```solidity title="IERC5192"
-/// @dev Minimal interface for soul-bound tokens
-interface IERC5192 {
-    /// Emitted exactly once when the token becomes locked
-    event Locked(uint256 tokenId);
+Lockx implements the ERC-5192 *Minimal Soulbound NFT* standard.  Two core hooks enforce the behaviour:
 
-    /// Emitted if a token ever becomes unlocked (not used in Lockx)
-    event Unlocked(uint256 tokenId);
+```solidity
+// SPDX-License-Identifier: BUSL-1.1
+pragma solidity ^0.8.30;
 
-    /// MUST always return true for every existing Lockbox
-    function locked(uint256 tokenId) external view returns (bool);
+import { IERC5192 } from "erc-5192/IERC5192.sol";
+
+contract Lockx is ERC721, IERC5192 {
+    /// Always true – every existing Lockbox is locked (soul-bound)
+    function locked(uint256 tokenId) external view override returns (bool) {
+        if (!_exists(tokenId)) revert NonexistentToken();
+        return true;
+    }
+
+    /// Disable any transfer – soul-bound enforcement
+    function _transfer(address, address, uint256) internal pure override {
+        revert TransfersDisabled();
+    }
+
+    /// Report ERC-5192 support alongside ERC-721 and ERC-165
+    function supportsInterface(bytes4 id) public view override returns (bool) {
+        if (id == type(IERC5192).interfaceId) return true;
+        return super.supportsInterface(id);
+    }
 }
 ```
 
-Lockx emits the `Locked` event during mint and overrides `locked()` to always return `true`.
+### Why not `safeTransferFrom`?
+
+Because `_transfer` is overridden to **always revert**, even internal calls to the standard `safeTransferFrom`/`transferFrom` helpers fail.  Marketplaces see the ERC-5192 interface and automatically hide Lockboxes from listings.
 
 ---
 
-## Transfer prevention
+## Security benefits
 
-```solidity title="_transfer override"
-/// Disable *any* transfer—soul-bound enforcement
-function _transfer(address, address, uint256) internal pure override {
-    revert TransfersDisabled();
-}
-```
-
-All ERC-721 transfer pathways (`transferFrom`, `safeTransferFrom`, approvals) eventually call `_transfer`, so this single override is sufficient.
-
-!!! danger "Irreversible"
-    Once minted, the NFT **cannot** be moved to another wallet. If you lose access to the original wallet you will need to rely on your key-management choice (self-custody seed phrase, or Lockx key-fraction recovery) to regain control.
+* Prevents accidental or malicious transfers of the Lockbox NFT itself.
+* Shields bagged assets if the wallet’s seed phrase is leaked – the attacker still needs a valid Lockx signature to withdraw assets.
+* Eliminates approval scams that rely on users moving their NFTs to phishing contracts.
 
 ---
 
-## Locked event flow
+## Common questions
 
-```solidity title="Mint flow"
-uint256 tokenId = _tokenIdCounter.current();
-_tokenIdCounter.increment();
+**Can I migrate to a new wallet?**  Yes.  Withdraw your assets to the new address, then burn the empty Lockbox (or simply leave it – it costs no gas to store).
 
-_safeMint(to, tokenId);
-emit Locked(tokenId);          // ← EIP-5192 compliance
-initialize(tokenId, pubKey);   // contract-specific setup
-```
-
-External indexers can listen for `Locked` events to catalogue all Lockboxes.
+**Can I renounce soul-bound behaviour?**  No.  It is a deliberate safety feature.  Use a new Lockbox if you require a transferrable wrapper.
 
 
 Set the `soulbound` flag to mark a lock as non-transferable. Tokens stay tied to the original owner; even after withdrawal they can only be sent back to the same wallet. Good for holdings you never want to mix with a hot wallet.
