@@ -60,6 +60,35 @@ Extensive invariant tests (see `foundry/LockxArrayInvariant.t.sol`) ensure:
 
 ## Maximum precision guarantees
 
+Lockx never truncates or rounds—balances are written *exactly* as the chain sees them.
+
+### ETH
+Stored in wei (1 ETH = 1e18 wei).
+```solidity
+function _depositETH(uint256 tokenId, uint256 amountETH) internal {
+    if (amountETH == 0) return;
+    _baggedETH[tokenId] += amountETH;
+}
+```
+
+### ERC-20 (delta tracking)
+Instead of trusting the caller-supplied `amount`, Lockx measures the **delta** in the contract’s balance before/after a `safeTransferFrom`:
+```solidity
+function _depositERC20(uint256 tokenId, address token, uint256 amount) internal {
+    IERC20 t = IERC20(token);
+    uint256 before = t.balanceOf(address(this));
+    t.safeTransferFrom(msg.sender, address(this), amount);
+    uint256 received = t.balanceOf(address(this)) - before;
+    if (received == 0) revert ZeroAmount();
+    _erc20Balances[tokenId][token] += received;
+}
+```
+The recording is **proof-of-receipt**: if a token charges transfer fees or rebases, only what actually arrived gets booked.
+
+### NFTs
+NFTs are stored via a packed `bytes32` key: `keccak256(nftContract, tokenId)`. Look-ups are O(1) and collision-free.
+
+
 Asset accounting never truncates:
 
 * **ETH**: stored in wei (`uint256`).
@@ -67,6 +96,55 @@ Asset accounting never truncates:
 * **NFTs**: stored as packed `bytes32` keys so enumeration is O(1) per id.
 
 Invariant tests (`foundry/LockxArrayInvariant.t.sol`) continuously assert that on-chain balances equal internal bookkeeping even when fuzzed with forced ETH donations.
+
+---
+
+---
+
+## View your vault contents
+Owners can query a full snapshot in **one** call:
+```solidity
+function getFullLockbox(uint256 tokenId)
+    external view returns (
+        uint256 bagETH,
+        BaggedERC20[] memory erc20Tokens,
+        BaggedNFT[]   memory nfts
+    ) {
+    _requireExists(tokenId);
+    if (_erc721.ownerOf(tokenId) != msg.sender) revert NotOwner();
+    bagETH = _baggedETH[tokenId];
+
+    address[] storage toks = _erc20TokenAddresses[tokenId];
+    erc20Tokens = new BaggedERC20[](toks.length);
+    for (uint256 i; i < toks.length; ++i) {
+        erc20Tokens[i] = BaggedERC20(toks[i], _erc20Balances[tokenId][toks[i]]);
+    }
+    // NFT enumeration omitted for brevity
+}
+```
+No pagination required—front-ends get the full state with a single RPC.
+
+---
+
+## Gas optimisations
+* **Unchecked loops** where bounds are pre-validated.  
+* **Swap-and-pop** for O(1) array removals:
+```solidity
+function _removeERC20Token(uint256 tokenId, address token) internal {
+    uint256 idx = _erc20Index[tokenId][token];
+    if (idx == 0) return;
+    uint256 last = _erc20TokenAddresses[tokenId].length;
+    if (idx != last) {
+        address lastTok = _erc20TokenAddresses[tokenId][last-1];
+        _erc20TokenAddresses[tokenId][idx-1] = lastTok;
+        _erc20Index[tokenId][lastTok] = idx;
+    }
+    _erc20TokenAddresses[tokenId].pop();
+    delete _erc20Index[tokenId][token];
+}
+```
+* **Conditional `_safeMint`** – `Lockx` mints with plain `_mint` for EOAs, saving ~10k gas.
+* **Storage refunds** – when a balance hits zero the slot is deleted, clawing back gas.
 
 ---
 
