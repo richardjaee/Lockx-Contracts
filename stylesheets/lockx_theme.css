@@ -48,8 +48,11 @@ html {
   .md-main, .md-footer {
     margin-left: 260px;
   }
-  /* optionally hide the in-page toc to avoid extra panel */
-  .md-sidebar--secondary {
+  /* restored right-hand in-page table of contents */
+  /* .md-sidebar--secondary { display:none; } */
+
+  /* hide integrated in-page section links (nested nav items) to keep sidebar to one level */
+  .md-nav--primary .md-nav__item .md-nav__list {
     display: none;
   }
 }
