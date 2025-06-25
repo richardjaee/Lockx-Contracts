@@ -70,6 +70,38 @@ body { overflow-y: scroll; }
   opacity: 0;
 }
 
+/* ──────────── Typographic hierarchy ─────────── */
+.md-typeset h1 {
+  font-size: 2.25rem; /* 36px */
+  font-weight: 700;
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+.md-typeset h2 {
+  font-size: 1.875rem; /* 30px */
+  font-weight: 700;
+  position: relative;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+}
+.md-typeset h3 {
+  font-size: 1.5rem; /* 24px */
+  font-weight: 600;
+  margin-top: 2rem;
+  margin-bottom: 0.75rem;
+}
+
+/* blue accent underline below primary headings (h1, h2) */
+.md-typeset h1::after, .md-typeset h2::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background-color: var(--md-accent-fg-color, #2563EB); /* fallback blue if theme var missing */
+  margin-top: 0.25rem;
+  border-radius: 2px;
+}
+
 /* hero section */
 .hero {
   padding: 4rem 1rem;
