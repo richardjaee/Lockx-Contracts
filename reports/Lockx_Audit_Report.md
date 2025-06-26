@@ -177,6 +177,23 @@ Mythril completed symbolic execution of `Lockx.sol` in 273 seconds with **0** ex
 
 CodeQL JavaScript/TypeScript queries ran on repository scripts; no security-relevant alerts.
 
+### 9.1  Detector explanations
+
+| Detector | What it checks | Why it matters | Impact on Lockx | Action |
+|----------|----------------|----------------|-----------------|--------|
+| uncontrolled-array-length | Arrays that can grow unbounded, potentially causing out-of-gas or griefing. | An attacker could enlarge storage arrays and make certain functions unusable. | `_erc20TokenAddresses` could accumulate many token addresses if a malicious user deposited thousands of tiny‐value ERC-20s. | Hard-capped to 32 unique tokens; reverts with `TooManyTokens()`.
+| missing-zero-check | Functions that accept the zero address where it is not meaningful. | Zero addresses usually indicate configuration mistakes and can bypass logic. | `withdrawERC20Batch` would gracefully perform no call for `address(0)` but still emit bookkeeping events. | Added explicit revert `ZeroAddress()`.
+| uninitialized-state | Storage variables that rely on Solidity’s default value 0. | Could cause confusion or be overwritten later. | `_nextId` starts at 0 intentionally so first Lockbox has tokenId 0. | Documented design choice.
+| reentrancy-no-eth | Possible re-entrancy in functions transferring tokens but not Ether. | ERC-20 callbacks may re-enter and manipulate state. | `createLockboxWithETH` flagged because it receives ETH; state update precedes external calls, and `nonReentrant` modifier deemed unnecessary. | No change.
+| uninitialized-return | Functions returning uninitialised memory/local variables. | Garbage data may leak or depend on previous calldata. | Two internal pure helpers flagged; they copy structs into memory but are only used internally. | Acceptable.
+| naming-convention | Identifiers that do not follow mixedCase rules. | Readability / ecosystem consistency. | NatSpec tags like `@custom:security-contact`. | Cosmetic; will be tidied in future PR.
+| solc-version | Mixed or hard-pinned compiler versions. | Version drift can hide vulnerabilities. | All files explicitly declare 0.8.30; informational only. | No action.
+
+### 9.2  Mythril coverage
+
+Mythril executed 9 255 paths across 14 contracts. No vulnerability classification reached *High* or *Medium*. The most complex trace (≈ 5 k ops) concerned the ECDSA recovery loop and ended in a benign revert due to bad signature v value.
+
+
 ---
 
 ## 10  Gas snapshot (Paris fork, 30 gwei)
