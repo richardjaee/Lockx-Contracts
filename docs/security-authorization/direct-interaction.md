@@ -2,16 +2,60 @@
 
 The Lockx UI is optional—every feature is exposed through verified Solidity contracts.  If the website is ever offline you can still mint, deposit, withdraw, and rotate keys with standard tools like **Etherscan**, **Foundry cast**, or **ethers.js** scripts.
 
+### Benefits of verified contracts
+
+* Full transparency of audited Solidity code  
+* Direct interaction with every public function  
+* Easy verification of transaction details before signing  
+* Independence from the Lockx frontend—**your assets stay accessible**  
+* Permanent access: as long as Ethereum exists, the contract does too
+
+
 ---
 
 ## Contract addresses
 
 | Network | Lockx address | Block explorer |
 |---------|---------------|----------------|
-| Ethereum mainnet | `0x…` *(replace with deployed address)* | [etherscan.io](https://etherscan.io/) |
+| Ethereum mainnet | `0x6cC1ACE12eAafbBedB41560Cc48856f3f4fcd6b9` | [etherscan.io](https://etherscan.io/address/0x6cC1ACE12eAafbBedB41560Cc48856f3f4fcd6b9) |
 | Sepolia (test)   | `0x…` | [sepolia.etherscan.io](https://sepolia.etherscan.io/) |
 
 All source code is flattened & verified, so the *Write / Read Contract* tabs are available.
+
+---
+
+## Interacting with Lockx on Etherscan
+
+**Step 1 – find the verified contract**  
+Go to Etherscan and paste the address above (or search “Lockx” → look for the green-check verified mark).
+
+**Step 2 – open the “Contract” tab**  
+Here you will see sub-tabs *Code*, *Read Contract*, and *Write Contract*.
+
+**Step 3 – query state with “Read Contract”**  
+Typical view helpers:
+
+| Function | Purpose |
+|----------|---------|
+| `getFullLockbox(tokenId)` | Returns ETH balance, ERC-20 list, NFT list |
+| `locked(tokenId)` | Always `true` – proves the Lockbox is soul-bound |
+| `ownerOf(tokenId)` | Current NFT owner |
+| `getActiveLockxPublicKeyForToken(tokenId)` | Current withdrawal key |
+| `getNonce(tokenId)` | Latest nonce for EIP-712 signatures |
+
+**Step 4 – modify state with “Write Contract”**  
+Click **Connect to Web3** to link your wallet, then call any *payable* / state-changing function. Common examples:
+
+| Function | What it does |
+|----------|--------------|
+| `depositETH(tokenId, referenceId)` | Deposit ETH |
+| `depositERC20(tokenId, tokenAddress, amount, referenceId)` | Deposit ERC-20 tokens |
+| `depositERC721(tokenId, nftContract, nftTokenId, referenceId)` | Deposit an NFT |
+| `unbagETH / ERC20 / ERC721` | Withdraw (requires EIP-712 signature) |
+| `rotateLockxKey` | Rotate withdrawal key (requires signature) |
+
+---
+
 
 ---
 
@@ -108,12 +152,44 @@ The contract verifies the signature and transfers ETH.
 
 ---
 
+## Example: check your Lockbox contents (no gas)
+
+1. In *Read Contract*, expand `getFullLockbox`.  
+2. Enter your `tokenId` and click **Query**.
+
+Example response:
+```jsonc
+[
+  "1000000000000000000",                // bagETH (wei)
+  [                                        // erc20Tokens
+    {
+      "tokenAddress": "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+      "balance": "50000000000000000000"
+    }
+  ],
+  [                                        // nfts
+    {
+      "nftContract": "0xBC4CA0EdA7647A8aB7C2061c2E118A18a936f13D",
+      "nftTokenId": 1234
+    }
+  ]
+]
+```
+This lets you audit funds without relying on any UI.
+
+---
+
+
+---
+
 ## Etherscan tips
 
-1. Switch network → select the *Write Contract* tab.
-2. Connect wallet (Metamask).
-3. Input params exactly—`bytes32` fields need `0x` prefix.
-4. For functions requiring `signature` / `digest`, paste the hex directly; Metamask pops a confirmation.
+1. Ensure the correct network is selected (Ethereum Mainnet for production or Sepolia for testing).  
+2. *Read Contract* calls are free—no wallet connection needed.  
+3. For *Write Contract*, click **Connect to Web3** and approve in Metamask.  
+4. `bytes32` inputs must include the `0x` prefix and be 64 hex chars.  
+5. Use the *Events* tab to monitor deposits, withdrawals and key rotations.  
+6. Etherscan auto-decodes transaction input for verified contracts—double-check decoded fields before signing.
 
 ---
 
