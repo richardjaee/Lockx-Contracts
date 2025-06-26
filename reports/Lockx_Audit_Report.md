@@ -349,7 +349,48 @@ Each withdrawal entry point combines EIP-712 authentication, balance updates, an
 
 ---
 
-## 16  Final conclusion
+## 16  Signature verification logic (`SignatureVerification.sol`)
+
+This contract underpins all off-chain authorization.  Its correctness is essential to prevent replay or forgery attacks.
+
+### 16.1 `initialize`
+| Aspect | Detail |
+|--------|--------|
+| Visibility | `internal` – called once during Lockbox mint. |
+| Purpose | Sets the first authorised public key and nonce = 1. |
+| Preconditions | Entry for `tokenId` must be empty. |
+| Threat surface | Re-initialisation to malicious key. |
+| Safeguards | Reverts with `AlreadyInitialized` if key already set. |
+| Gas | 26 k. |
+
+### 16.2 `verifySignature`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Core EIP-712 check used by all state-changing wrappers. |
+| Workflow | 1) Hash `data` → `dataHash` 2) Construct struct hash with current nonce & `opType` 3) Domain-hash via `_hashTypedDataV4` 4) `ECDSA.recover` and compare to active key 5) Increment nonce and optionally rotate key. |
+| Threat surface | Struct mismatch, replay with stale nonce, cross-contract replay, key rotation bugs. |
+| Safeguards | Nonce included in signed data; domain separator binds to chain id & verifying contract; rotation only on `ROTATE_KEY` op; revert on hash mismatch or invalid sig. |
+| Tests | Dedicated Foundry invariant ensures nonce strictly monotonic per token.  Fuzz tests sign random ops and expect success/revert accordingly. |
+| Gas | 49 k typical.
+
+### 16.3 `getActiveLockboxPublicKeyForToken`
+| Aspect | Detail |
+|--------|--------|
+| Visibility | `external view` token-gated. |
+| Purpose | Returns current authorised key for UI tooling. |
+| Threat surface | Leaking key? (public). |
+| Gas | ~1.3 k (cold). |
+
+### 16.4 `getNonce`
+| Aspect | Detail |
+|--------|--------|
+| Visibility | `external view` token-gated. |
+| Purpose | Surfaces current nonce to frontend so clients can prepare next op. |
+| Gas | ~1.3 k. |
+
+---
+
+## 17  Final conclusion
 
 The Lockx contract suite has undergone extensive static analysis, symbolic execution, unit & fuzz testing, and invariant verification.  No critical or high-severity issues remain.  Defence-in-depth measures—key-fraction signatures, nonce & expiry, `nonReentrant`, and rigorous bookkeeping—provide strong protection against common smart-contract threats.  Maintaining CI guardrails and periodically re-running heavy tools like Mythril will help preserve this posture as the codebase evolves.
 
