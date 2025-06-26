@@ -396,6 +396,69 @@ The Lockx contract suite has undergone extensive static analysis, symbolic execu
 
 ---
 
+## Appendix D – Design rationale
+
+Lockx is engineered around four core principles:
+
+| Principle | Rationale | Manifestation in code |
+|-----------|-----------|------------------------|
+| Minimal trusted surface | Reduce the set of privileged roles to the NFT owner and EIP-712 signer. | No `onlyOwner` or upgradeable proxies; immutable logic; externalised deploy script. |
+| Key-fraction authorisation | Separate user wallet (NFT ownership) from hot key (off-chain signature device) to enable 2-factor withdrawals. | `SignatureVerification` contract stores independent public key; NFT transfer alone is insufficient to move assets. |
+| Atomic multi-asset flows | Users should move heterogeneous assets in single txs to avoid partial failure risk. | `batchDeposit` / `batchWithdraw` update all ledgers before external calls. |
+| Defence-in-depth bookkeeping | Balance arrays and mappings are cross-checked by invariants to detect drift. | Foundry invariants (`LockxArrayInvariant`, `LockxNonceInvariant`, etc.) run on every CI push. |
+
+---
+
+## Appendix E – Threat-model diagrams
+
+The following Mermaid diagrams illustrate the high-level call flows and threat boundaries.
+
+### E.1 Deposit flow
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant W as Wallet
+    participant C as Lockx Contracts
+    participant V as Vault Mapping
+    U->>W: prepare deposit tx
+    W->>C: depositETH/depositERC20(...)
+    C->>C: update ledger
+    C->>V: store asset mapping
+    C-->>U: event
+```
+
+### E.2 Withdrawal flow (happy path)
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant S as Off-chain Signing Key
+    participant C as Lockx Contracts
+    participant Recipient
+    U->>S: request signature
+    S-->>U: EIP-712 signature
+    U->>C: withdrawETH(..., sig)
+    C->>C: verifySignature
+    C->>C: decrement ledger
+    C->>Recipient: asset transfer
+    C-->>U: Withdrawn event
+```
+
+### E.3 Adversary matrix
+```mermaid
+graph TD
+    subgraph External
+        attacker[Adversary]
+    end
+    subgraph TrustBoundary
+        contracts[Lockx Contracts]
+    end
+    attacker --\> contracts: forged signature❌
+    attacker --\> contracts: replay tx❌
+    attacker --\> contracts: re-entrancy❌
+```
+
+---
+
 ## Appendix A – Informational notes
 
 | ID | Description | Status |
