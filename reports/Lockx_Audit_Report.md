@@ -459,6 +459,38 @@ graph TD
 
 ---
 
+## Appendix F – Glossary of terms
+
+| Term | Definition |
+|------|------------|
+| Lockbox | The on-chain container ERC-721 NFT that represents a vault of assets tied to a unique ID. |
+| Lockbox NFT | The ERC-721 token itself; ownership determines who may call deposit/withdraw wrappers. |
+| Key-fraction | A separate off-chain public key authorised to sign EIP-712 messages for withdrawals.  Enables 2-factor security. |
+| OperationType | Enum in `SignatureVerification.sol` identifying the authorised action (withdraw, rotate key, etc.). |
+| Nonce | Monotonic counter per lockbox incremented on each successful signature verification to prevent replay. |
+| Checks-Effects-Interactions | Solidity best-practice pattern: validate first, mutate state second, interact with external contracts last. |
+| Invariant test | Foundry test that runs multiple randomised calls and asserts a property always holds. |
+| Batch deposit / withdraw | Wrapper that moves multiple heterogeneous assets atomically to avoid partial failures. |
+| Slither | Static analysis framework for Solidity detecting vulnerabilities, code-smells, and gas issues. |
+| Mythril | Symbolic execution & concolic analysis tool for smart contracts. |
+| EIP-712 | Ethereum standard for typed structured data hashing and signing. |
+| viaIR | Solidity compiler flag enabling the Yul intermediate representation backend for gas savings. |
+
+---
+
+## Appendix G – References & bibliography
+
+1. Buterin, V. (2017). *EIP-712: Ethereum typed structured data hashing and signing*.
+2. OpenZeppelin Contracts v4.9.5, MIT License.  <https://github.com/OpenZeppelin/openzeppelin-contracts>
+3. Feist, J. et al. (2019). *Slither: A Static Analysis Framework for Smart Contracts*.
+4. Krupp, J., & Rossow, C. (2018). *TeEther: Gnawing at Ethereum to automatically exploit smart contracts*. In USENIX Security.
+5. ChainSecurity. (2020). *Echidna: Property-based testing framework*.
+6. Foundry. (2023). *Forge Book: Fast, portable Ethereum test framework*.
+7. Nomic Foundation. (2024). *Hardhat: Ethereum development environment*.
+8. ConsenSys Diligence. (2024). *Mythril: Security analysis tool*.
+
+---
+
 ## Appendix A – Informational notes
 
 | ID | Description | Status |
