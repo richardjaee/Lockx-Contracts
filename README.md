@@ -1,8 +1,5 @@
 # Lockx Hardhat Development Environment
 
-[![ci](https://github.com/richardjaee/Lockx-Contracts/actions/workflows/ci.yml/badge.svg)](https://github.com/richardjaee/Lockx-Contracts/actions/workflows/ci.yml)
-[![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](coverage/index.html)
-[![slither](https://img.shields.io/badge/slither-passing-brightgreen)](reports/slither-report.txt)
 [![license](https://img.shields.io/badge/license-BUSL--1.1-blue)](LICENSE)
 
 A professional Solidity smart-contract repository powered by Hardhat, with full testing, coverage, static-analysis and CI.
@@ -127,4 +124,4 @@ ETHERSCAN_API_KEY=YourEtherscanKey
 
 ---
 
-See the full security audit at [reports/AUDIT_REPORT_v1.1.2.md](reports/AUDIT_REPORT_v1.1.2.md).
+See the full, up-to-date audit at [reports/Lockx_Audit_Report.md](reports/Lockx_Audit_Report.md) (v1.2).

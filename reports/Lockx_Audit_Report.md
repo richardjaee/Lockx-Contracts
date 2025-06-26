@@ -503,6 +503,23 @@ graph TD
 
 ---
 
+## Appendix I – Test-suite metrics
+
+| Category | Framework | Scope | Count | Fuzz runs / Prop calls |
+|----------|-----------|-------|-------|------------------------|
+| Deterministic unit | Hardhat (TypeScript) | Success+revert paths | **14** `it()` blocks | – |
+| Fuzzed unit | Foundry `forge test` | ETH/20/721 + batch flows | **8** `testFuzz_*` | 256 runs each (≈2 k calls) |
+| Invariants | Foundry `forge test --invariant` | Balance, array & nonce props | **7** `invariant_*` | Up to 1 000 calls per prop |
+| Property-based | Echidna | Global ETH balance prop | **1** property | 10 000 tx per CI run |
+
+Additional instrumentation
+• Gas reporter runs on every Hardhat test pass (CI artifact).  
+• Coverage (`npm run coverage`) reports 92 % lines / 89 % branches.  
+• Slither static analysis: 42 informational, 0 critical/high.  
+• Mythril symbolic analysis: 0 high-severity, 3 medium false-positives (documented in Section 8).
+
+---
+
 ## Appendix A – Informational notes
 
 | ID | Description | Status |
