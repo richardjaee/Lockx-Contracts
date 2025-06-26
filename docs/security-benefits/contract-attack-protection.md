@@ -14,15 +14,21 @@ Lockx smart contracts combine OpenZeppelin battle-tested primitives with extra l
 
 ## Deep-dive scenarios
 
-### 1. Reentrancy
+??? danger "Reentrancy"
+    Attacker contract re-enters before state updates.
+
+    !!! info "Lockx defence"
+        • Every external entrypoint marked **nonReentrant**.  
+        • Follows *checks → effects → interactions* pattern.  
+        • Invariant tests assert Σ(balances) == contract balance.
 
 Attacker contract uses `fallback()` to re-enter before balances update.
 
-Lockx counter-measures:
 
-* `nonReentrant` modifier on every external entry.
-* Internal pattern: *checks → effects → interactions*.
-* Unit + Foundry invariant tests keep `Σ(balances) == addr.balance`.
+
+
+
+
 
 ```solidity
 function withdrawETH(uint256 tokenId, bytes32 msgHash, bytes calldata sig,
