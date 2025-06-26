@@ -73,6 +73,24 @@ Lockx offers an optional **key-fraction** tier for users that prefer extra secur
 
 ---
 
+## Key export & recovery
+
+!!! warning "Proof of ownership required"
+    The encrypted **platform fraction** (𝑘ᴾ) is handed to you during setup.  Keep it safe—Lockx cannot recover it for you.
+
+To export or recover the full private key you must present **all three** factors:
+
+1. A fresh wallet signature proving you still control 𝑘ᵁ.
+2. The encrypted 𝑘ᴾ blob you downloaded at setup.
+3. A valid 6-digit TOTP code (if 2FA is enabled).
+
+Once verified, the backend derives 𝐾 in volatile memory, delivers it to you over an end-to-end encrypted channel, **then wipes it immediately**.  The key must be re-derived for any future export.
+
+!!! tip "Advanced-tier HSM protection"
+    Subscribers on the **Advanced** plan have their server fraction protected by a FIPS-3 Hardware Security Module.  Extraction attempts are logged and rate-limited at the hardware level.
+
+---
+
 ## Comparison of tiers
 
 | Tier | Who holds key? | Platform fee | Ideal for |

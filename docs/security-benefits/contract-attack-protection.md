@@ -22,7 +22,7 @@ Lockx smart contracts combine OpenZeppelin battle-tested primitives with extra l
         • Follows *checks → effects → interactions* pattern.  
         • Invariant tests assert Σ(balances) == contract balance.
 
-Attacker contract uses `fallback()` to re-enter before balances update.
+
 
 
 
@@ -44,24 +44,44 @@ function withdrawETH(uint256 tokenId, bytes32 msgHash, bytes calldata sig,
 }
 ```
 
-### 2. Signature replay
+??? danger "Signature replay"
+    Valid signature reused to drain assets multiple times.
 
-* Mitigation: `tokenNonce[tokenId]` increments inside `verifySignature`.  Any reused signature fails `!= currentNonce`.
+    !!! info "Lockx defence"
+        `tokenNonce[tokenId]` increments after each successful verification; any reused signature with an old nonce **reverts**.
 
-### 3. Transaction ordering / MEV
 
-* Every `Withdraw*` struct embeds `deadline` (unix seconds) and `referenceId` (hash chosen by user).
-* Front-run tx mined after the deadline => **revert**.
-* Duplicate referenceIds rejected in backend UX.
 
-### 4. Unauthorized function access
+??? danger "Transaction ordering & MEV"
+    Miner/front-runner inserts a higher-gas tx to profit.
 
-* All mutating functions check `ownerOf(tokenId)`.
-* Dual-authorization: wallet **and** Lockx key signature.
+    !!! info "Lockx defence"
+        • Every withdrawal struct embeds `deadline` and `referenceId`.  
+        • Tx mined after `deadline` automatically reverts.  
+        • Duplicate `referenceId`s rejected by backend UX.
 
-### 5. Grief ETH send & self-destruct
 
-Contract has no `receive()`; forced ETH increases internal `address(this).balance` but invariant tests treat surplus as donation – never underflow.
+
+
+
+??? danger "Unauthorized function access"
+    Attacker directly calls sensitive internal functions.
+
+    !!! info "Lockx defence"
+        • All mutating functions check `ownerOf(tokenId)`.  
+        • Dual authorization: wallet **and** Lockx key signature required.
+
+
+
+
+??? danger "Grief ETH send & self-destruct"
+    Forced ETH via `selfdestruct` breaks accounting.
+
+    !!! info "Lockx defence"
+        • Contract has no `receive()`; unexpected ETH only increases balance.  
+        • Invariant tests allow surplus and prevent underflow.
+
+
 
 ---
 
