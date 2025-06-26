@@ -287,9 +287,71 @@ The following tables summarise each externally-callable deposit entry point.  Fo
 | Fuzz property | For any combination meeting preconditions, all asset counts increment correctly. |
 | Gas | 0.54–1.2 M depending on array sizes (see snapshot for representative case). |
 
+
+## 15  Function-by-function analysis (`Withdrawals.sol` wrappers)
+
+Each withdrawal entry point combines EIP-712 authentication, balance updates, and external transfers.  All follow Checks-Effects-Interactions and are `nonReentrant`.
+
+### 15.1 `withdrawETH`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Move ETH from lockbox to recipient. |
+| Preconditions | Owner call; recipient ≠ 0; signature valid & unexpired; balance ≥ amount. |
+| Threat surface | Signature replay, expiry bypass, failed CALL, balance drift. |
+| Safeguards | `verifySignature` enforces unique nonce + key-fraction; balance checked prior; revert on failed transfer. |
+| Tests | Hardhat `withdrawals.spec.ts` / Foundry `LockxBatchFuzz` cover success & revert cases. |
+| Gas | ~53 k (first), 38 k (subsequent). |
+
+### 15.2 `withdrawERC20`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Transfer ERC-20 tokens to recipient. |
+| Preconditions | Recipient ≠ 0; signature valid; balance ≥ amount. |
+| Threat surface | Fee-on-transfer deflation, token hook re-entrancy, storage underflow. |
+| Safeguards | Balance map updated before `safeTransfer`; zero balances purge arrays; capped token list length. |
+| Invariant involvement | `LockxArrayInvariant` verifies token list integrity after removals. |
+| Gas | 74 k first token, 56 k later. |
+
+### 15.3 `withdrawERC721`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Return deposited NFT. |
+| Preconditions | NFT present; signature valid; recipient ≠ 0. |
+| Threat surface | Incorrect NFT id, unsafe receiver, replay. |
+| Safeguards | `_nftKnown` guard; removal before `safeTransferFrom`. |
+| Gas | 112 k. |
+
+### 15.4 `batchWithdraw`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Atomic mixed-asset withdrawal. |
+| Preconditions | Arrays length-match; signature valid; balances sufficient. |
+| Threat surface | Gas griefing, partial execution, order-based exploits. |
+| Safeguards | Loops update state then interact; whole tx reverts on any failure. |
+| Gas | 597 k for sample batch. |
+
+### 15.5 `rotateLockboxKey`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Change authorised off-chain key. |
+| Threat surface | Key rollback via replay, malicious key injection. |
+| Safeguards | Higher nonce enforced; event emitted for monitoring. |
+| Gas | 45 k. |
+
+### 15.6 `burnLockbox`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Permanently close lockbox and burn NFT after emptying balances. |
+| Preconditions | All ledgers zero; signature valid; not expired. |
+| Threat surface | Burning with assets remaining, bypassing zero checks. |
+| Safeguards | Internal check ensures zero balances then delegates NFT burn. |
+| Gas | 95 k. |
+
 ---
 
-The Lockx contract suite passed all automated and manual checks without critical or high-severity issues.  Medium-severity items found were resolved before this report’s publication.  Invariant and fuzz testing demonstrate strong resistance to balance-drift and signature-replay vectors.  Continued adherence to the recommendations above will help maintain this security posture.
+## 16  Final conclusion
+
+The Lockx contract suite has undergone extensive static analysis, symbolic execution, unit & fuzz testing, and invariant verification.  No critical or high-severity issues remain.  Defence-in-depth measures—key-fraction signatures, nonce & expiry, `nonReentrant`, and rigorous bookkeeping—provide strong protection against common smart-contract threats.  Maintaining CI guardrails and periodically re-running heavy tools like Mythril will help preserve this posture as the codebase evolves.
 
 ---
 
