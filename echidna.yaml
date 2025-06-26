@@ -1,2 +1,0 @@
-testMode: assertion
-cryticArgs: ['--disable-builtin']

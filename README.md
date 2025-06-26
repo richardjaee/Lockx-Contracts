@@ -3,7 +3,7 @@
 [![ci](https://github.com/richardjaee/Lockx-Contracts/actions/workflows/ci.yml/badge.svg)](https://github.com/richardjaee/Lockx-Contracts/actions/workflows/ci.yml)
 [![coverage](https://img.shields.io/badge/coverage-100%25-brightgreen)](coverage/index.html)
 [![slither](https://img.shields.io/badge/slither-passing-brightgreen)](reports/slither-report.txt)
-[![license](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
+[![license](https://img.shields.io/badge/license-BUSL--1.1-blue)](LICENSE)
 
 A professional Solidity smart-contract repository powered by Hardhat, with full testing, coverage, static-analysis and CI.
 
@@ -18,7 +18,6 @@ A professional Solidity smart-contract repository powered by Hardhat, with full 
 7. [Deployment](#deployment)
 8. [Continuous integration](#continuous-integration)
 9. [Environment variables](#environment-variables)
-10. [Contributing](#contributing)
 
 ---
 
@@ -113,10 +112,6 @@ npx hardhat verify --network sepolia <DEPLOYED_ADDRESS>
 3. Generate coverage
 4. Install & run Slither
 
-## Contributing
-
-We ❤️ contributions! Please read the [CONTRIBUTING guidelines](CONTRIBUTING.md) before opening an issue or pull request.
-
 ## Environment variables
 
 Create a `.env` file (based on `.env.example`) in the project root:
@@ -132,4 +127,4 @@ ETHERSCAN_API_KEY=YourEtherscanKey
 
 ---
 
-Feel free to open issues or PRs for improvements!
+See the full security audit at [reports/AUDIT_REPORT_v1.1.2.md](reports/AUDIT_REPORT_v1.1.2.md).
