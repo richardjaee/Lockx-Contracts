@@ -491,6 +491,18 @@ graph TD
 
 ---
 
+## Appendix H – Severity classification matrix
+
+| Severity | Impact | Likelihood | Example exploit | Disposition in Lockx |
+|----------|--------|-----------|-----------------|----------------------|
+| Critical | Asset theft or permanent loss for *all* users; network-wide censorship or bricking. | Reasonably feasible with moderate effort. | Signature bypass allowing anyone to withdraw all assets. | **None found** (Slither/Mythril + manual review). |
+| High | Theft or loss for single user; lockbox bricking; permanent denial of service. | Feasible with skilled attacker. | Underflow in balance accounting for a specific token. | **0 found** – earlier storage-overwrite risk fixed in v1.1.3. |
+| Medium | Financial loss mitigated by user action; incorrect accounting resolvable via upgrade/migration. | Requires edge-case conditions. | Fee-on-transfer token causing silent under-credit. | **1 historical** – handled by balance-before/after patch. |
+| Low | No direct loss; minor malfunction or griefing; gas inefficiency. | Unlikely or requires privileged actor. | Event not emitted on successful withdraw. | 3 items – documented in Appendix A. |
+| Informational | Best-practice or style nit; no exploitable impact. | N/A | SPDX mixed case. | Numerous, tracked in Appendix A. |
+
+---
+
 ## Appendix A – Informational notes
 
 | ID | Description | Status |
