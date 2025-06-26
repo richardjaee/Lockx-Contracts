@@ -136,3 +136,21 @@ body { overflow-y: scroll; }
 .btn-primary:hover {
   opacity: 0.85;
 }
+
+/* ─────────── Sidebar tweaks (June 25 2025) ─────────── */
+@media screen and (min-width: 960px) {
+  /* remove default internal padding and shrink width */
+  .md-sidebar--primary {
+    padding-left: 0;
+    width: 240px;
+  }
+  /* keep content aligned */
+  .md-main, .md-footer {
+    margin-left: 240px;
+  }
+}
+
+/* slightly larger sidebar typography */
+.md-nav__link {
+  font-size: 0.95rem; /* was ~0.87rem */
+}
