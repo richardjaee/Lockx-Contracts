@@ -241,6 +241,58 @@ The Lockx contract suite passed all automated and manual checks without critical
 
 ---
 
+## 14  Function-by-function analysis (`Deposits.sol` wrappers)
+
+The following tables summarise each externally-callable deposit entry point.  For brevity, internal helpers are not listed individually.
+
+### 14.1 `depositETH`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Add Ether to an existing Lockbox. |
+| Preconditions | `msg.sender` owns `tokenId`; `msg.value > 0`. |
+| Threat surface | Incorrect balance accounting; re-entrancy on fallback; mis-routing ETH deposits. |
+| Unit test excerpt | `expect(balanceETH(tokenId)).to.equal(prev+amount)` after call; revert on `0` value. |
+| Fuzz property | For all positive `amount`, post-deposit ledger increment equals `amount`. |
+| Invariant involvement | `LockxInvariant` ensures ∑ETH equals `address(this).balance`. |
+| Gas | See Section 10 snapshot (approx. 42 k for empty Storage slot → 21 k subsequent). |
+
+### 14.2 `depositERC20`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Transfer ERC-20 tokens from caller to Lockbox and update ledger. |
+| Preconditions | Caller owns lockbox; `tokenAddress ≠ 0`; `amount > 0`; allowance granted. |
+| Threat surface | Failing `transferFrom`; fee-on-transfer tokens; double-counting; re-entrancy via ERC-777 hooks. |
+| Safeguards | Balance-before/after technique determines actual `received`; non-reentrant; zero-address revert. |
+| Fuzz property | Ledger increment equals `received` for arbitrary compliant ERC-20. |
+| Invariant involvement | `LockxArrayInvariant` ensures token array bookkeeping remains bijective. |
+| Gas | 64 k first-time token (includes array push); 46 k subsequent. |
+
+### 14.3 `depositERC721`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Move an NFT into Lockbox custody. |
+| Preconditions | Caller owns lockbox; `nftContract ≠ 0`. |
+| Threat surface | Transferring non-owned NFTs; unsafe receivers; collisions in NFT key hash. |
+| Safeguards | Uses `safeTransferFrom`; unique `key` mapping; zero-address revert. |
+| Invariant involvement | Covered indirectly: NFT set size tracked by withdrawal invariants. |
+| Gas | ~105 k first NFT key; ~75 k subsequent. |
+
+### 14.4 `batchDeposit`
+| Aspect | Detail |
+|--------|--------|
+| Purpose | Atomically deposit ETH, multiple ERC-20s and NFTs. |
+| Preconditions | Non-empty inputs; `msg.value == amountETH`; array lengths match. |
+| Threat surface | Array length mismatch; gas exhaustion; partial deposits; token exhaustion. |
+| Safeguards | Length checks; non-reentrant; early revert on ETH mismatch. |
+| Fuzz property | For any combination meeting preconditions, all asset counts increment correctly. |
+| Gas | 0.54–1.2 M depending on array sizes (see snapshot for representative case). |
+
+---
+
+The Lockx contract suite passed all automated and manual checks without critical or high-severity issues.  Medium-severity items found were resolved before this report’s publication.  Invariant and fuzz testing demonstrate strong resistance to balance-drift and signature-replay vectors.  Continued adherence to the recommendations above will help maintain this security posture.
+
+---
+
 ## Appendix A – Informational notes
 
 | ID | Description | Status |
