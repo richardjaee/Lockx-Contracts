@@ -24,12 +24,6 @@ Lockx isolates vault withdrawals behind a **second signing key** (KFT or self-cu
 
 
 
-
-
-
-
-
-
 ??? danger "Signature phishing"
     Malicious site asks you to sign ambiguous hex.
 
@@ -38,17 +32,11 @@ Lockx isolates vault withdrawals behind a **second signing key** (KFT or self-cu
         • Wallet UI shows these fields in plain English, so phishing blobs are obvious.
 
 
-
-
-
-
 ??? danger "Blind signature / permit drainers"
     ERC-20 `permit` blobs can mask unlimited approvals.
 
     !!! info "Lockx defence"
         Lockbox assets ignore `permit`; only explicit withdrawals signed by **both** keys are accepted.
-
-
 
 ??? danger "Malware & RATs"
     Trojan scrapes extension storage for keys.
@@ -56,10 +44,6 @@ Lockx isolates vault withdrawals behind a **second signing key** (KFT or self-cu
     !!! info "Lockx defence"
         • Lockx key never lives on disk – derived on-demand & wiped.  
         • 𝑘ᴾ fraction sealed in HSM; 𝑘ᵁ requires fresh wallet sig + TOTP.
-
-
-
-
 
 
 ??? danger "Seed-phrase compromise"
@@ -95,8 +79,6 @@ Lockx isolates vault withdrawals behind a **second signing key** (KFT or self-cu
 
     !!! info "Lockx defence"
         Seed phrase reveals no Lockx key fraction – vault remains safe; simply rotate user fraction and recover funds.
-
-
 
 ---
 
